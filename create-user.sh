@@ -32,12 +32,24 @@ fi
 echo "Richte SSH für $USERNAME ein..."
 sudo mkdir -p /home/$USERNAME/.ssh
 sudo chmod 700 /home/$USERNAME/.ssh
-sudo chown $USERNAME:$USERNAME /home/$USERNAME/.ssh
+sudo touch /home/$USERNAME/.ssh/authorized_keys
+sudo chmod 600 /home/$USERNAME/.ssh/authorized_keys
+sudo chown -R $USERNAME:$USERNAME /home/$USERNAME/.ssh
 
-# SSH-Zugriff erlauben
+# Öffentlichen Schlüssel abfragen und hinzufügen
+read -p "Bitte geben Sie den öffentlichen SSH-Schlüssel ein: " PUBLIC_KEY
+
+if [[ -n "$PUBLIC_KEY" ]]; then
+    echo "$PUBLIC_KEY" | sudo tee -a /home/$USERNAME/.ssh/authorized_keys > /dev/null
+    echo "Öffentlicher Schlüssel wurde hinzugefügt."
+else
+    echo "Kein öffentlicher Schlüssel angegeben. SSH-Zugriff wird nicht eingerichtet."
+fi
+
+# SSH-Zugriff erlauben (optional)
 echo "Aktiviere SSH-Zugriff für $USERNAME..."
 if ! grep -q "^AllowUsers" /etc/ssh/sshd_config; then
-    echo "AllowUsers $USERNAME" | sudo tee -a /etc/ssh/sshd_config
+    echo "AllowUsers $USERNAME" | sudo tee -a /etc/ssh/sshd_config > /dev/null
 else
     sudo sed -i "/^AllowUsers/s/$/ $USERNAME/" /etc/ssh/sshd_config
 fi
@@ -46,5 +58,5 @@ fi
 echo "Starte SSH-Dienst neu..."
 sudo systemctl restart sshd
 
-# Fertig
+# Fertigmeldung
 echo "Benutzer $USERNAME wurde erfolgreich angelegt, hat Sudo-Rechte und kann sich per SSH anmelden."
