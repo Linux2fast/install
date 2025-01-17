@@ -1,20 +1,17 @@
 #!/bin/bash
 
-# Dieses Skript installiert Docker und Docker Compose in einem unprivilegierten LXC-Container.
-
 # 1. System aktualisieren
 echo "System wird aktualisiert..."
 sudo apt-get update && sudo apt-get upgrade -y
 
 # 2. Notwendige Pakete installieren
 echo "Notwendige Pakete werden installiert..."
-sudo apt-get install -y ca-certificates curl gnupg lsb-release fuse-overlayfs
+sudo apt-get install -y ca-certificates curl gnupg lsb-release fuse-overlayfs software-properties-common
 
 # 3. Docker GPG-Schlüssel hinzufügen
 echo "Docker GPG-Schlüssel wird hinzugefügt..."
 sudo mkdir -p /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-sudo chmod a+r /etc/apt/keyrings/docker.gpg
 
 # 4. Docker-Repository hinzufügen
 echo "Docker-Repository wird hinzugefügt..."
@@ -25,10 +22,8 @@ echo "Docker wird installiert..."
 sudo apt-get update
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-# 6. Konfiguration für unprivilegierten Betrieb anpassen
+# 6. Konfiguration für unprivilegierten Betrieb anpassen (fuse-overlayfs)
 echo "Konfiguration für unprivilegierten Betrieb wird angepasst..."
-
-# FUSE OverlayFS als Storage-Treiber festlegen
 cat <<EOF | sudo tee /etc/docker/daemon.json
 {
     "storage-driver": "fuse-overlayfs"
@@ -38,7 +33,7 @@ EOF
 # Host-Dateisystem für Docker bereitstellen (falls erforderlich)
 if [ ! -d "/var/lib/docker" ]; then
     echo "Docker-Verzeichnis wird erstellt..."
-    mkdir -p /var/lib/docker
+    sudo mkdir -p /var/lib/docker
     sudo chown $(id -u):$(id -g) /var/lib/docker
 fi
 
