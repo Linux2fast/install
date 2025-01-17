@@ -60,5 +60,10 @@ echo "Installiere Docker..."
 curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh
 
-# Fertigmeldung
+# Benutzer zur Docker-Gruppe hinzufügen, damit er Docker-Befehle ausführen kann
+echo "Füge $USERNAME zur Docker-Gruppe hinzu..."
+sudo usermod -aG docker $USERNAME
+
+# Fertigmeldung und Hinweis auf Abmeldung für Gruppenänderungen
 echo "Benutzer $USERNAME wurde erfolgreich angelegt, hat Sudo-Rechte, kann sich per SSH anmelden, und Docker wurde installiert."
+echo "Hinweis: Der Benutzer muss sich ab- und wieder anmelden, um Docker-Befehle ausführen zu können."
