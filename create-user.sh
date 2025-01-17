@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Benutzername abfragen
+# Benutzername abfragen -test
 read -p "Bitte geben Sie den Benutzernamen ein: " USERNAME
 
 # Prüfen, ob ein Benutzername eingegeben wurde
