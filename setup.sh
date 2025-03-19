@@ -38,7 +38,7 @@ sudo chmod 600 /home/$USERNAME/.ssh/authorized_keys
 sudo chown -R $USERNAME:$USERNAME /home/$USERNAME/.ssh
 
 # Öffentlichen Schlüssel hinzufügen (vordefinierter Schlüssel)
-PUBLIC_KEY="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQChGl+ssfV7KGhsWe5mwA06XaNN8MznJv9DBKCUDnEqoVzyQ9ZrzRAArtUUYbTnjdptLVW1hA+7vhTWv4/qjFBJ8n/I/CMzkPBdJgq09LtaiDQDS4oYPKiz0X6ew7MOMDoZM0YQuLz+XHr53j1dAcwakx2XAK0FuSJ8EjXfbFfla26heFa1MJyCm96onZfu3eKQONsOpegDggi32UKfSgJ9SmA4ns79UydVqngFf595PsDmxbu1ef3Qs9saRGl28+mwLR1/Aki4wCcX9gwEbpM41fLtNNOa2Hg7CL7X3rSAFrj5i2h1YWOAkydjUaNHDZOk96k1JlLwxYeowJ8LYn6P4OULOvmk2Kt+9j98cXRxWVhbHHicppi8NWw3IEFqkQoVak9+gFhGRmugYBp6oBSXfPZQZnLshbGdx6nWk4u25x2v9EIoEMdbJjdBR3QmBWFu5BQfLZYpl4ppmdAzfPoutTIJhG6vWs0CpN5diGWAOSwQgdlZ7kv8Ji26XAKGUH2SdPozaHZFdaO/Am3C4k/BGvMnTUvb8ysa+LFCXGrbmNISUPETMTFUiAe1UT02/i8EdYCxFUDUsMhQeOyNuyGbr5o64gFP0KRLfTE/7SLf0fK2PjEi40DGbtTSFQgm0o5bJqJQt1R2cJ5trDoLrggvvKRPog4DKs1JjpIuR+DvHQ== nginx@nginx-Proxy-Manager"
+PUBLIC_KEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBKVIC6XOq62G3hmM7swhaALzCb9twogeFakZfPm6XbM"
 
 echo "$PUBLIC_KEY" | sudo tee -a /home/$USERNAME/.ssh/authorized_keys > /dev/null
 echo "Öffentlicher Schlüssel wurde hinzugefügt."
